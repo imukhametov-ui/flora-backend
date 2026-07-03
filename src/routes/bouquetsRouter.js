@@ -1,14 +1,33 @@
-const express = require('express');
-const controllers = require('../controllers/bouquetsControllers');
-const { createSchema, updateSchema } = require('../schemas/bouquetsSchemas');
-const validateBody = require('../middlewares/validateBody');
+import express from "express";
 
-const router = express.Router();
+import {
+  getAllBouquets,
+  getBouquetById,
+  createBouquet,
+  updateBouquet,
+  deleteBouquet,
+  updateFavorite,
+} from "../controllers/bouquetsControllers.js";
 
-router.get('/', controllers.getAll);
-router.get('/:id', controllers.getById);
-router.post('/', validateBody(createSchema), controllers.create);
-router.put('/:id', validateBody(updateSchema), controllers.update);
-router.delete('/:id', controllers.remove);
+import validateBody from "../middlewares/validateBody.js";
 
-module.exports = router;
+import {
+  bouquetCreateSchema,
+  bouquetUpdateSchema,
+  bouquetFavoriteSchema,
+} from "../schemas/bouquetsSchemas.js";
+
+const bouquetsRouter = express.Router();
+
+bouquetsRouter.get("/", getAllBouquets);
+bouquetsRouter.get("/:id", getBouquetById);
+bouquetsRouter.post("/", validateBody(bouquetCreateSchema), createBouquet);
+bouquetsRouter.put("/:id", validateBody(bouquetUpdateSchema), updateBouquet);
+bouquetsRouter.delete("/:id", deleteBouquet);
+bouquetsRouter.patch(
+  "/:id/favorite",
+  validateBody(bouquetFavoriteSchema),
+  updateFavorite
+);
+
+export default bouquetsRouter;

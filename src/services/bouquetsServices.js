@@ -1,28 +1,34 @@
-const { Bouquet } = require('../db/models/Bouquet');
+import { Bouquet } from "../db/models/Bouquet.js";
 
-async function getAll() {
+export const listBouquets = async () => {
   return Bouquet.findAll();
-}
+};
 
-async function getById(id) {
+export const getBouquetById = async (id) => {
   return Bouquet.findByPk(id);
-}
+};
 
-async function create(data) {
+export const createBouquet = async (data) => {
   return Bouquet.create(data);
-}
+};
 
-async function update(id, data) {
-  const item = await Bouquet.findByPk(id);
-  if (!item) return null;
-  return item.update(data);
-}
+export const updateBouquet = async (id, data) => {
+  const bouquet = await Bouquet.findByPk(id);
 
-async function remove(id) {
-  const item = await Bouquet.findByPk(id);
-  if (!item) return null;
-  await item.destroy();
-  return true;
-}
+  if (!bouquet) {
+    return null;
+  }
 
-module.exports = { getAll, getById, create, update, remove };
+  return bouquet.update(data);
+};
+
+export const deleteBouquet = async (id) => {
+  const bouquet = await Bouquet.findByPk(id);
+
+  if (!bouquet) {
+    return null;
+  }
+
+  await bouquet.destroy();
+  return bouquet;
+};

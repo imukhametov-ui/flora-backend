@@ -1,8 +1,18 @@
-module.exports = function (schema) {
-  return (req, res, next) => {
-    const { error, value } = schema.validate(req.body, { abortEarly: false, stripUnknown: true });
-    if (error) return res.status(400).json({ message: error.details.map(d => d.message).join(', ') });
-    req.body = value;
+import HttpError from "../helpers/HttpError.js";
+
+const validateBody = (schema) => {
+  const func = (req, res, next) => {
+    const { error } = schema.validate(req.body);
+
+    if (error) {
+      next(HttpError(400, error.message));
+      return;
+    }
+
     next();
   };
+
+  return func;
 };
+
+export default validateBody;

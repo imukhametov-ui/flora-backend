@@ -1,19 +1,21 @@
-const Joi = require('joi');
+import Joi from "joi";
 
-const createSchema = Joi.object({
-  photoURL: Joi.string().uri().allow('', null),
-  title: Joi.string().min(1).required(),
-  description: Joi.string().allow('', null),
-  price: Joi.number().precision(2).required(),
-  favorite: Joi.boolean().default(false)
+export const bouquetCreateSchema = Joi.object({
+  photoURL: Joi.string().uri().allow("").optional(),
+  title: Joi.string().min(2).required(),
+  description: Joi.string().allow("").optional(),
+  price: Joi.number().positive().required(),
+  favorite: Joi.boolean().optional(),
 });
 
-const updateSchema = Joi.object({
-  photoURL: Joi.string().uri().allow('', null),
-  title: Joi.string().min(1),
-  description: Joi.string().allow('', null),
-  price: Joi.number().precision(2),
-  favorite: Joi.boolean()
-});
+export const bouquetUpdateSchema = Joi.object({
+  photoURL: Joi.string().uri().allow("").optional(),
+  title: Joi.string().min(2).optional(),
+  description: Joi.string().allow("").optional(),
+  price: Joi.number().positive().optional(),
+  favorite: Joi.boolean().optional(),
+}).min(1);
 
-module.exports = { createSchema, updateSchema };
+export const bouquetFavoriteSchema = Joi.object({
+  favorite: Joi.boolean().required(),
+});

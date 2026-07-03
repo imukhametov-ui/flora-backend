@@ -1,13 +1,25 @@
-require('dotenv').config();
-const { app, initDb } = require('./src/app');
+import dotenv from "dotenv";
+import app from "./src/app.js";
+import { sequelize } from "./src/db/sequelize.js";
+
+dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
-initDb().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`);
-  });
-}).catch(err => {
-  console.error('Failed to initialize DB', err);
-  process.exit(1);
-});
+const startServer = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Database connection successful");
+
+    await sequelize.sync();
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Database connection failed:", error.message);
+    process.exit(1);
+  }
+};
+
+startServer();

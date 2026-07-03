@@ -1,33 +1,32 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../sequelize');
+import { DataTypes } from "sequelize";
+import { sequelize } from "../sequelize.js";
 
-const Bouquet = sequelize.define('Bouquet', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
+export const Bouquet = sequelize.define(
+  "Bouquet",
+  {
+    photoURL: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    price: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
+    },
+    favorite: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
-  photoURL: {
-    type: DataTypes.STRING,
-    allowNull: true
-  },
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: true
-  },
-  price: {
-    type: DataTypes.DECIMAL(10,2),
-    allowNull: false
-  },
-  favorite: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: false
+  {
+    tableName: "bouquets",
   }
-});
-
-module.exports = { Bouquet };
+);

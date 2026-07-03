@@ -1,6 +1,6 @@
-node_modules/
+node_modules
 .env
-database.sqlite
-temp/
-public/photos/
-npm-debug.log
+temp/*
+public/photos/*
+!temp/.gitkeep
+!public/photos/.gitkeep
