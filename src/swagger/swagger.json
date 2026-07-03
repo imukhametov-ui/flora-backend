@@ -1,0 +1,17 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Flora API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/bouquets": {
+      "get": {
+        "summary": "Get bouquets",
+        "responses": {
+          "200": { "description": "OK" }
+        }
+      }
+    }
+  }
+}
