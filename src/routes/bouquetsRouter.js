@@ -1,5 +1,5 @@
 import express from "express";
-
+import upload from "../middlewares/upload.js";
 import {
   getAllBouquets,
   getBouquetById,
@@ -7,6 +7,7 @@ import {
   updateBouquet,
   deleteBouquet,
   updateFavorite,
+  updatePhoto,
 } from "../controllers/bouquetsControllers.js";
 
 import validateBody from "../middlewares/validateBody.js";
@@ -29,5 +30,5 @@ bouquetsRouter.patch(
   validateBody(bouquetFavoriteSchema),
   updateFavorite
 );
-
+bouquetsRouter.patch("/:id/photo", upload.single("photo"), updatePhoto);
 export default bouquetsRouter;
