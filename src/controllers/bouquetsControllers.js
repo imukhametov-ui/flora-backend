@@ -3,6 +3,7 @@ import HttpError from "../helpers/HttpError.js";
 import fs from "fs/promises";
 import path from "path";
 import { nanoid } from "nanoid";
+import gravatar from "gravatar";
 export const getAllBouquets = async (req, res, next) => {
   try {
     const bouquets = await bouquetsServices.listBouquets();
@@ -28,7 +29,18 @@ export const getBouquetById = async (req, res, next) => {
 
 export const createBouquet = async (req, res, next) => {
   try {
-    const bouquet = await bouquetsServices.createBouquet(req.body);
+    const photoURL =
+      req.body.photoURL ||
+      gravatar.url(req.body.title, {
+        s: "250",
+        d: "identicon",
+      });
+
+    const bouquet = await bouquetsServices.createBouquet({
+      ...req.body,
+      photoURL,
+    });
+
     res.status(201).json(bouquet);
   } catch (error) {
     next(error);

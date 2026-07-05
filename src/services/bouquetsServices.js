@@ -1,15 +1,37 @@
 import { Bouquet } from "../db/models/Bouquet.js";
 
+const normalizeBouquet = (bouquet) => {
+  if (!bouquet) {
+    return null;
+  }
+
+  const plainBouquet = bouquet.get({ plain: true });
+
+  return {
+    ...plainBouquet,
+    name: plainBouquet.title,
+    desc: plainBouquet.description,
+    img: plainBouquet.photoURL,
+    img2x: plainBouquet.photoURL,
+  };
+};
+
 export const listBouquets = async () => {
-  return Bouquet.findAll();
+  const bouquets = await Bouquet.findAll();
+
+  return bouquets.map(normalizeBouquet);
 };
 
 export const getBouquetById = async (id) => {
-  return Bouquet.findByPk(id);
+  const bouquet = await Bouquet.findByPk(id);
+
+  return normalizeBouquet(bouquet);
 };
 
 export const createBouquet = async (data) => {
-  return Bouquet.create(data);
+  const bouquet = await Bouquet.create(data);
+
+  return normalizeBouquet(bouquet);
 };
 
 export const updateBouquet = async (id, data) => {
@@ -19,7 +41,9 @@ export const updateBouquet = async (id, data) => {
     return null;
   }
 
-  return bouquet.update(data);
+  const updatedBouquet = await bouquet.update(data);
+
+  return normalizeBouquet(updatedBouquet);
 };
 
 export const deleteBouquet = async (id) => {
@@ -30,5 +54,6 @@ export const deleteBouquet = async (id) => {
   }
 
   await bouquet.destroy();
-  return bouquet;
+
+  return normalizeBouquet(bouquet);
 };
