@@ -7,6 +7,13 @@ import errorHandler from "./middlewares/errorHandler.js";
 import swaggerDocument from "./swagger/swagger.json" with { type: "json" };
 
 const app = express();
+app.get("/", (req, res) => {
+  res.json({
+    message: "Flora backend API is running",
+    docs: "/api/docs",
+    bouquets: "/api/bouquets"
+  });
+});
 
 app.use(cors());
 app.use(express.json());
