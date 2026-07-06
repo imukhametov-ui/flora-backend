@@ -3,6 +3,7 @@ import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 
 import bouquetsRouter from "./routes/bouquetsRouter.js";
+import reviewsRouter from "./routes/reviewsRouter.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import swaggerDocument from "./swagger/swagger.json" with { type: "json" };
 
@@ -21,6 +22,7 @@ app.use(express.static("public"));
 
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/bouquets", bouquetsRouter);
+app.use("/api/reviews", reviewsRouter);
 
 app.use(errorHandler);
 

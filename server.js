@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 import app from "./src/app.js";
 import { sequelize } from "./src/db/sequelize.js";
+import "./src/db/models/Bouquet.js";
+import "./src/db/models/Review.js";
 
 dotenv.config();
 
